@@ -41,7 +41,7 @@ struct SwitchTo: ParsableCommand {
             ($0.localizedName!, $0)
         })
 
-        let runningAppsInOrder = appNamesInOrder.map({ runningAppsLookup[$0]! })
+        let runningAppsInOrder = appNamesInOrder.map({ runningAppsLookup[$0] ?? nil }).filter({ $0 != nil }).map({ $0! })
 
         if (recent) {
             for app in runningAppsInOrder {
