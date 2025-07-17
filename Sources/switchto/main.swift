@@ -37,9 +37,10 @@ struct SwitchTo: ParsableCommand {
         let appNameLookup = Set(appNamesInOrder)
         let runningApps = workspace.runningApplications
                 .filter({ app in app.localizedName != nil && appNameLookup.contains(app.localizedName!) })
-        let runningAppsLookup = Dictionary<String, NSRunningApplication>(uniqueKeysWithValues: runningApps.map {
-            ($0.localizedName!, $0)
-        })
+        var runningAppsLookup: [String: NSRunningApplication] = [:]
+        for app in runningApps {
+            runningAppsLookup[app.localizedName!] = app
+        }
 
         let runningAppsInOrder = appNamesInOrder.map({ runningAppsLookup[$0] ?? nil }).filter({ $0 != nil }).map({ $0! })
 
